@@ -1,8 +1,8 @@
 import fetch_urls as urls
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import time
 import datetime
-import os
 
 
 class ClickUrlsAndWait:
@@ -15,18 +15,14 @@ class ClickUrlsAndWait:
             url_list = urls.get_urls_list()
             counter = 0
             for url in url_list:
-                chrome_options = webdriver.ChromeOptions()
+                chrome_options = Options()
                 chrome_options.add_argument("--headless")
                 chrome_options.add_argument("--disable-gpu")
+                chrome_options.add_argument("--no-sandbox")
+                chrome_options.add_argument("enable-automation")
+                chrome_options.add_argument("--disable-infobars")
+                chrome_options.add_argument("--disable-dev-shm-usage")
                 driver = webdriver.Chrome(options=chrome_options)
-
-                # For Heroku
-                # op = webdriver.ChromeOptions()
-                # op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-                # op.add_argument("--headless")
-                # op.add_argument("--no-sandbox")
-                # op.add_argument("--disable-dev-sh-usage")
-                # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=op)
 
                 if "paid-to-read-email.com/open" in url:
                     driver.get(url)
